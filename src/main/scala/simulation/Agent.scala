@@ -16,16 +16,6 @@ case class Agent(id: Int, x: Double, y: Double, isCooperator: Boolean, points: D
     copy(points = points + score)
   }
 
-  /** If opponent has more points, adopt its behavior with given chance,
-   * resetting coolDown on success (requires coolDown > 0).
-   */
-  def adoptStrategy(opponent: Agent, chance: Double, rng: Random, resetVal: Int = 10000): Agent = {
-    if (coolDown > 0 && opponent.points > points && rng.nextDouble() < chance)
-      copy(isCooperator = opponent.isCooperator, coolDown = resetVal)
-    else
-      this
-  }
-
   def move(speed: Double, worldSize: Double, rng: Random): Agent = {
     // helper to clamp a value into [min, max]
     def clamp(v: Double, min: Double, max: Double): Double =
