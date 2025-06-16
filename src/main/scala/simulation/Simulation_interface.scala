@@ -1,7 +1,6 @@
 package simulation
 
 import scala.util.{Try, Random}
-import scala.jdk.CollectionConverters._
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
@@ -11,12 +10,7 @@ import scalafx.scene.chart.{LineChart, NumberAxis, XYChart}
 import scalafx.scene.layout.{BorderPane, VBox, HBox}
 import scalafx.scene.paint.Color
 import scalafx.animation.AnimationTimer
-import java.io.{File, PrintWriter}
-import scala.util.Using
-import javafx.scene.layout.{BorderPane => JfxBorderPane, Priority}
 
-
-import scalafx.Includes._  // for implicit converters, asString, etc.
 
 object Simulation_interface extends JFXApp3 {
 
@@ -83,7 +77,7 @@ object Simulation_interface extends JFXApp3 {
     }
 
     stage = new PrimaryStage {
-      title = "Prisoner’s Dilemma Simulation"
+      title = "Adoption of Rules in Societies"
       scene = new Scene(canvasSize + 400, canvasSize + 400) {
         root = new BorderPane {
           left   = controls
@@ -94,7 +88,6 @@ object Simulation_interface extends JFXApp3 {
     }
 
     // ─── PARSE & CLAMP HELPER ────────────────────────────────────────────────────
-    import scala.math.Numeric
     def parseOr[A](tf: TextField, lo: A, hi: A, f: String => A)(implicit N: Numeric[A]): A = {
       Try(f(tf.text.value)).toOption
         .map { v =>

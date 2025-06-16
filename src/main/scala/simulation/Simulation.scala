@@ -21,16 +21,7 @@ object Simulation {
       dx*dx + dy*dy <= c.radius*c.radius
     }
 
-  def initializeWorld(
-                       nAgents: Int,
-                       coopRatio: Double,
-                       coopCityFrac: Double,
-                       defectCityFrac: Double,
-                       worldSize: Double,
-                       interactionRadius: Double,
-                       cities: Seq[City],
-                       rng: Random
-                     ): World = {
+  def initializeWorld(nAgents: Int, coopRatio: Double, coopCityFrac: Double, defectCityFrac: Double, worldSize: Double, interactionRadius: Double, cities: Seq[City], rng: Random): World = {
     val totalCoop   = (coopRatio   * nAgents).round.toInt
     val totalDefect = nAgents - totalCoop
 
@@ -84,7 +75,6 @@ object Simulation {
             temptation: Double,
             rng: Random
           ): World = {
-
 
     // 1) move
     val moved = world.agents.map(_.move(speed, world.worldSize, rng))
