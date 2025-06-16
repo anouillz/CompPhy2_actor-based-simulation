@@ -40,15 +40,13 @@ object Main {
       rng
     )
 
-
-
-    // 2) Run the simulation for nSteps, collecting snapshots
+    //Run the simulation for nSteps, collecting snapshots
     val history = (1 to nSteps).foldLeft(List(world.agents)) { (hist, _) =>
       world = Simulation.step(world, speed, adoptionChance, temptation, rng)
       world.agents :: hist
     }.reverse
 
-    // 3) Serialize to JSON
+    // export to JSON
     val jsonFrames = history.map { frame =>
       val agentsJson = frame.map { a =>
         s"""{"id":${a.id},"x":${a.x},"y":${a.y},"strategy":"${if(a.isCooperator)"C" else "D"}"}"""

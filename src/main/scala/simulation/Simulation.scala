@@ -21,16 +21,7 @@ object Simulation {
       dx*dx + dy*dy <= c.radius*c.radius
     }
 
-  def initializeWorld(
-                       nAgents: Int,
-                       coopRatio: Double,
-                       coopCityFrac: Double,
-                       defectCityFrac: Double,
-                       worldSize: Double,
-                       interactionRadius: Double,
-                       cities: Seq[City],
-                       rng: Random
-                     ): World = {
+  def initializeWorld(nAgents: Int, coopRatio: Double, coopCityFrac: Double, defectCityFrac: Double, worldSize: Double, interactionRadius: Double, cities: Seq[City], rng: Random): World = {
     val totalCoop   = (coopRatio   * nAgents).round.toInt
     val totalDefect = nAgents - totalCoop
 
@@ -85,7 +76,6 @@ object Simulation {
             rng: Random
           ): World = {
 
-
     // 1) move
     val moved = world.agents.map(_.move(speed, world.worldSize, rng))
 
@@ -109,4 +99,32 @@ object Simulation {
     val reset = updated.map(a => a.copy(points = 0.0, coolDown = math.max(0, a.coolDown-1)))
     world.copy(agents = reset)
   }
+
+  // count groups of cooperators
+  def countCooperatorClusters(world: World): Int = {
+    // Build index of cooperator agents
+    val coops = world.agents.filter(_.isCooperator)
+    val n      = coops.length
+    // Precompute neighbor‐within‐radius relationships
+    val adj = Array.fill(n)(collection.mutable.ListBuffer.empty[Int])
+    for (i <- 0 until n; j <- i+1 until n) {
+      if (hypot(coops(i).x - coops(j).x, coops(i).y - coops(j).y) <= world.interactionRadius) {
+        adj(i) += j
+        adj(j) += i
+      }
+    }
+    // DFS to count connected components
+    val seen = Array.fill(n)(false)
+    var count = 0
+    def dfs(i: Int): Unit = {
+      seen(i) = true
+      for (j <- adj(i) if !seen(j)) dfs(j)
+    }
+    for (i <- 0 until n if !seen(i)) {
+      count += 1
+      dfs(i)
+    }
+    count
+  }
+
 }
