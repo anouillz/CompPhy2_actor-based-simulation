@@ -123,6 +123,23 @@ In a terminal write `sbt run` and then input `2` to chose the interface. It will
 ## Visuals 
 
 ### Simulation video :
+![Simulation Demo](res/Phy-health.gif)
+
+### Plots :
+
+ **Initial Cooperation vs. Outcomes**
+ 
+![Final Cooperation & Clusters vs Initial Cooperation Ratio](res/Phy-clusters-coopRatio.png)
+
+*Final cooperation rate (blue) and cooperator cluster count (red) across different initial cooperation ratios.*  
+
+**Scenario Comparison**
+
+![Final Cooperation by Condition](res/Phy_conditions_comparison.png)
+
+*Final cooperation percentage for fast movers, slow movers, high temptation, and low temptation scenarios.*  
+
+
 
 
 
